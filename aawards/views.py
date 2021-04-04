@@ -83,3 +83,38 @@ def editprofile(request):
     return render(request, 'editprofile.html', params)
 
 
+class ProfileList(APIView):
+    def get(self,request,format = None):
+        all_profile = Profile.objects.all()
+        serializerdata = ProfileSerializer(all_profile,many = True)
+        return Response(serializerdata.data)
+
+class ProjectList(APIView):
+    def get(self,request,format = None):
+        all_projects = Projects.objects.all()
+        serializerdata = ProjectSerializer(all_projects,many = True)
+        return Response(serializerdata.data)
+
+def projects(request,id):
+    proj = Projects.objects.get(id = id)
+    return render(request,'readmore.html',{"projects":proj})
+
+@login_required(login_url='login')   
+def rate(request,id):
+    # reviews = Revieww.objects.get(projects_id = id).all()
+    # print
+    project = Projects.objects.get(id = id)
+    user = request.user
+    if request.method == 'POST':
+        form = RateForm(request.POST)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.user = user
+            rate.projects = project
+            rate.save()
+            return redirect('home')
+    else:
+        form = RateForm()
+    return render(request,"rate.html",{"form":form,"project":project})   
+
+
