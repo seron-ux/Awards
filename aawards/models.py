@@ -1,19 +1,25 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Review (models.Model):
-    user = models.ForeignKey(User,on_delete = models.CASCADE)
-    projects = models.ForeignKey(Projects,on_delete = models.CASCADE)
-    date = models.DateField(auto_now_add=True)
-    text = models.TextField(max_length=3000,blank=True)
-    design = models.PositiveSmallIntegerField(choices = RATE_CHOICES,default= 0)
-    usability = models.PositiveSmallIntegerField(choices = RATE_CHOICES,default = 0)
-    content = models.PositiveSmallIntegerField(choices = RATE_CHOICES,default = 0)
-    
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    title= models.CharField(max_length=50)
+    desc= models.TextField()
+    post_date = models.DateTimeField(default=timezone.now)
+    image = models.ImageField(upload_to='awwad/')
+    link = models.URLField(max_length=70)
+    technologies = models.CharField(max_length=100)
 
 
     def __str__(self):
-        return self.user.username
+        return self.title
+
+    def save_awwa(self):
+        self.save()
+
+    def delete_awwa(self):
+        self.delete()
 
 
 
