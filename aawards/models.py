@@ -2,24 +2,24 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Review (models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    title= models.CharField(max_length=50)
-    desc= models.TextField()
-    post_date = models.DateTimeField(default=timezone.now)
-    image = models.ImageField(upload_to='awwad/')
-    link = models.URLField(max_length=70)
-    technologies = models.CharField(max_length=100)
-
+class Profile(models.Model):
+    photo = CloudinaryField('images')
+    Bio = models.CharField(max_length=30)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    datecreated= models.DateField(auto_now_add=True )
 
     def __str__(self):
-        return self.title
+        return self.user.username
+ 
+    def save_profile(self):
+        self.user
 
-    def save_awwa(self):
-        self.save()
+    def delete_profile(self):
+        self.delete()    
 
-    def delete_awwa(self):
-        self.delete()
+    @classmethod
+    def search_profile(cls, name):
+        return cls.objects.filter(user__username__icontains=name).all()
 
 
 
