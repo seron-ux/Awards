@@ -1,1 +1,35 @@
-<h1>hey</h1>
+<div class="" style="font-family: 'Jost', sans-serif;">
+    {%extends 'base.html'%}
+    {%block content%}
+    <div class="container-fluid">
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h2 class="display-4">AWARDS</h2>
+                <p class="lead">CHECK OUT OTHER PEOPLES PROJECT YOU CAN ALSO POST YOURS AND REVIEW THEM
+                </p>
+            </div>
+        </div>
+        <h3>Sample Projects</h3>
+        <div class="row">
+            {%for proj in projects%}
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="view view-cascade overlay">
+                        <img src="{{proj.projectscreenshot.url}}" class="img-fluid" alt="">
+                        <a href="projects/{{proj.id}}">
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="">{{proj.title}}</h5>
+                        <a href="projects/{{proj.id}}/">SEE MORE!</a>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+
+    {%endblock%}
+</div>

@@ -15,9 +15,8 @@ from .serializer import ProfileSerializer,ProjectSerializer
 
 # Create your views here.
 def index(request):
-    return render(request,'index.html',)
-
-
+    projects = Projects.objects.all()
+    return render(request,'index.html',{"projects":projects})
 def register(request):
     if request.method=="POST":
         form=RegistrationForm(request.POST)
@@ -29,7 +28,7 @@ def register(request):
             profile.user=user
             profile.save()
 
-   
+            # messages.success(request, f'Successfully created Account!.You can now login as {username}!')
         return redirect('login')
     else:
         form= RegistrationForm()
@@ -39,7 +38,6 @@ def register(request):
         'profForm': prof
     }
     return render(request, 'users/register.html', params)
-
 
 def searchprofile(request):
     if 'searchUser' in request.GET and request.GET['searchUser']:
@@ -54,7 +52,6 @@ def searchprofile(request):
     else:
         message = "You haven't searched for any profile"
     return render(request, 'search.html', {'message': message})
-
 
 @login_required(login_url='login')   
 def addProject(request):
@@ -75,7 +72,6 @@ def profile(request,id):
     prof = Profile.objects.get(user = id)
     return render(request,'profile.html',{"profile":prof})
 
-
 def editprofile(request):
     user= request.user
     if request.method == 'POST':
@@ -93,7 +89,6 @@ def editprofile(request):
         'prof_form': prof_form
     }
     return render(request, 'editprofile.html', params)
-
 
 class ProfileList(APIView):
     def get(self,request,format = None):
@@ -127,6 +122,4 @@ def rate(request,id):
             return redirect('home')
     else:
         form = RateForm()
-    return render(request,"rate.html",{"form":form,"project":project})   
-
-
+    return render(request,"rate.html",{"form":form,"project":project}) 
