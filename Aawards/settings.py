@@ -73,7 +73,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'aawards',
     'bootstrap3',
-    'star_ratings',
+    # 'star_ratings',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
